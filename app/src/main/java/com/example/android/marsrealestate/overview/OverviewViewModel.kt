@@ -25,19 +25,21 @@ import com.example.android.marsrealestate.network.MarsApi
 import com.example.android.marsrealestate.network.MarsProperty
 //import com.example.android.marsrealestate.network.MarsProperty
 import kotlinx.coroutines.launch
+
 //import retrofit2.Call
 //import retrofit2.Callback
 //import retrofit2.Response
 
 
 enum class MarsApiStatus { LOADING, ERROR, DONE }
+
 /**
  * The [ViewModel] that is attached to the [OverviewFragment].
  */
 class OverviewViewModel : ViewModel() {
 
     // The internal MutableLiveData String that stores the most recent response
-    private val _status  = MutableLiveData<MarsApiStatus>()
+    private val _status = MutableLiveData<MarsApiStatus>()
 
     // The external immutable LiveData for the response String
     val status: LiveData<MarsApiStatus>
@@ -52,11 +54,15 @@ class OverviewViewModel : ViewModel() {
 
 
     // The internal MutableLiveData String that stores the most recent response
-    private val _errorMessage  = MutableLiveData<String>()
+    private val _errorMessage = MutableLiveData<String>()
 
     // The external immutable LiveData for the response String
     val errorMessage: LiveData<String>
         get() = _errorMessage
+
+    private val _navigateToSelectedProperty = MutableLiveData<MarsProperty>()
+    val navigateToSelectedProperty: LiveData<MarsProperty>
+        get() = _navigateToSelectedProperty
 
     /**
      * Call getMarsRealEstateProperties() on init so we can display status immediately.
@@ -94,5 +100,13 @@ class OverviewViewModel : ViewModel() {
                         _response.value = "Failure: " + t.message
                     }
                 })*/
+    }
+
+    fun displayPropertyDetails(marsProperty: MarsProperty) {
+        _navigateToSelectedProperty.value = marsProperty
+    }
+
+    fun displayPropertyDetailsComplete() {
+        _navigateToSelectedProperty.value = null
     }
 }
